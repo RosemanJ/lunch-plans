@@ -1,13 +1,45 @@
 const React = require('react')
-// const sampleData = require('../public/sampleData')
-const {object} = React.PropTypes
+const sampleData = require('../public/sampleData')
+const WheelWedge = require('./WheelWedge')
 let clicks = 0
 
 const Landing = React.createClass({
-  propTypes: {
-    route: object
+  shuffleNums: function (array) {
+    let i = array.length
+    let j = 0
+    let temp
+    while (i--) {
+      j = Math.floor(Math.random() * (i + 1))
+      // swap randomly chosen element with current element
+      temp = array[i]
+      array[i] = array[j]
+      array[j] = temp
+    }
+    return array
+  },
+  loadWheel: function () {
+    const numLunchChoices = sampleData.lunchChoices.length
+    let tempNumsArray = []
+    let wheelPieces = []
+    for (var i = 0; i < numLunchChoices; i++) {
+      tempNumsArray.push(i)
+    }
+
+    let randomNums = this.shuffleNums(tempNumsArray)
+
+    wheelPieces.push(sampleData.lunchChoices[randomNums[0]].name)
+    wheelPieces.push(sampleData.lunchChoices[randomNums[1]].name)
+    wheelPieces.push(sampleData.lunchChoices[randomNums[2]].name)
+    wheelPieces.push(sampleData.lunchChoices[randomNums[3]].name)
+    wheelPieces.push(sampleData.lunchChoices[randomNums[4]].name)
+    wheelPieces.push(sampleData.lunchChoices[randomNums[5]].name)
+
+    return wheelPieces
   },
   handleSpinClick: function (event) {
+    // found online at https://codepen.io/AndreCortellini/pen/vERwmL?editors=1111
+    // rewritten slightly back into plain Javascript and React
+
     // add 1 every click
     clicks++
 
@@ -42,8 +74,8 @@ const Landing = React.createClass({
 				So, if the offset reaches 23.7, then we know
 				that it has a 30 degree angle and therefore,
 				exactly aligned with the spin btn */
-        // if (aoY < 23.89) {
-        if (aoY < 50) {
+        if (aoY < 23.89) {
+        // if (aoY < 50) {
           console.log('<<<<<<<<')
           document.getElementById('spin').classList.add('spin')
           setTimeout(function () {
@@ -56,6 +88,7 @@ const Landing = React.createClass({
     }
   },
   render () {
+    let wheelWedges = this.loadWheel()
     return (
       <div className='container'>
 
@@ -67,22 +100,19 @@ const Landing = React.createClass({
 
           <div id="wheel">
             <div id="inner-wheel">
-              <div className="sec"><span className="fa fa-bell-o"></span></div>
-              <div className="sec"><span className="fa fa-comment-o"></span></div>
-              <div className="sec"><span className="fa fa-smile-o"></span></div>
-              <div className="sec"><span className="fa fa-heart-o"></span></div>
-              <div className="sec"><span className="fa fa-star-o"></span></div>
-              <div className="sec"><span className="fa fa-lightbulb-o"></span></div>
+              {wheelWedges
+                .map((restaurant) => (
+                  <WheelWedge restaurant={restaurant} />
+                ))
+              }
             </div>
 
             <div id="spin" onClick={this.handleSpinClick}>
               <div id="inner-spin"></div>
             </div>
 
-            <div id="shine"></div>
           </div>
 
-          <div id="txt"></div>
         </div>
 
       </div>

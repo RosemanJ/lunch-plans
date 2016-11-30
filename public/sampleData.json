@@ -1,36 +1,163 @@
 {"lunchChoices": [
   {
-    "restaurant": "",
-    "cuisine": "",
-    "cost": "",
+    "name": "Trueburger",
+    "tags": ["American", "burgers"],
+    "breakfast": false,
+    "lunch": true,
+    "cost": "$$",
     "distance": "",
     "menu": ""
   },
   {
-    "restaurant": "",
-    "cuisine": "",
-    "cost": "",
+    "name": "Homeroom",
+    "tags": ["American", "Mac and Cheese"],
+    "breakfast": false,
+    "lunch": true,
+    "cost": "$$",
     "distance": "",
     "menu": ""
   },
   {
-    "restaurant": "",
-    "cuisine": "",
-    "cost": "",
+    "name": "IBs",
+    "tags": ["American", "sandwiches"],
+    "breakfast": true,
+    "lunch": true,
+    "cost": "$$",
     "distance": "",
     "menu": ""
   },
   {
-    "restaurant": "",
-    "cuisine": "",
-    "cost": "",
+    "name": "Old Brooklyn Cafe",
+    "tags": ["American"],
+    "breakfast": true,
+    "lunch": true,
+    "cost": "$$",
     "distance": "",
     "menu": ""
   },
   {
-    "restaurant": "",
-    "cuisine": "",
-    "cost": "",
+    "name": "Specialtys",
+    "tags": ["American","sandwiches", "soups", "cookies"],
+    "breakfast": true,
+    "lunch": true,
+    "cost": "$$",
+    "distance": "",
+    "menu": ""
+  },
+  {
+    "name": "Hawker Fare",
+    "tags": [""],
+    "breakfast": false,
+    "lunch": true,
+    "cost": "$$",
+    "distance": "",
+    "menu": ""
+  },
+  {
+    "name": "Ikes Place",
+    "tags": [""],
+    "breakfast": true,
+    "lunch": true,
+    "cost": "$$",
+    "distance": "",
+    "menu": ""
+  },
+  {
+    "name": "Umami Burger",
+    "tags": [""],
+    "breakfast": false,
+    "lunch": true,
+    "cost": "$$",
+    "distance": "",
+    "menu": ""
+  },
+  {
+    "name": "Drakes",
+    "tags": [""],
+    "breakfast": false,
+    "lunch": true,
+    "cost": "$$",
+    "distance": "",
+    "menu": ""
+  },
+  {
+    "name": "Taiwan Bento",
+    "tags": [""],
+    "breakfast": false,
+    "lunch": true,
+    "cost": "$$",
+    "distance": "",
+    "menu": ""
+  },
+  {
+    "name": "Lunch Box",
+    "tags": [""],
+    "breakfast": false,
+    "lunch": true,
+    "cost": "$$",
+    "distance": "",
+    "menu": ""
+  },
+  {
+    "name": "Happy Burrito",
+    "tags": [""],
+    "breakfast": false,
+    "lunch": true,
+    "cost": "$$",
+    "distance": "",
+    "menu": ""
+  },
+  {
+    "name": "Round Table",
+    "tags": [""],
+    "breakfast": true,
+    "lunch": true,
+    "cost": "$$",
+    "distance": "",
+    "menu": ""
+  },
+  {
+    "name": "Rosamunde",
+    "tags": [""],
+    "breakfast": true,
+    "lunch": true,
+    "cost": "$$",
+    "distance": "",
+    "menu": ""
+  },
+  {
+    "name": "Torpedo Sushi",
+    "tags": [""],
+    "breakfast": true,
+    "lunch": true,
+    "cost": "$$",
+    "distance": "",
+    "menu": ""
+  },
+  {
+    "name": "Agave",
+    "tags": [""],
+    "breakfast": true,
+    "lunch": true,
+    "cost": "$$",
+    "distance": "",
+    "menu": ""
+  },
+  {
+    "name": "Athenian Deli",
+    "tags": [""],
+    "breakfast": true,
+    "lunch": true,
+    "cost": "$$",
+    "distance": "",
+    "menu": ""
+  },
+  {
+    "name": "Taco Bell",
+    "tags": [""],
+    "breakfast": true,
+    "lunch": true,
+    "cost": "$$",
     "distance": "",
     "menu": ""
   }
