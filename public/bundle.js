@@ -20185,14 +20185,14 @@
 	    { className: "sec" },
 	    React.createElement(
 	      "span",
-	      { className: "fa fa-bell-o" },
+	      { className: "fa" },
 	      props.restaurant
 	    )
 	  );
 	};
 
 	WheelWedge.propTypes = {
-	  restaurant: React.PropTypes.object
+	  restaurant: React.PropTypes.string
 	};
 
 	module.exports = WheelWedge;
