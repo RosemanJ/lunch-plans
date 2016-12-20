@@ -1,9 +1,13 @@
 const React = require('react')
 const sampleData = require('../public/sampleData')
 const WheelWedge = require('./WheelWedge')
+const FilterForm = require('./FilterForm')
 let clicks = 0
 
 const Landing = React.createClass({
+  handleButtonClick () {
+    this.setState(this.state)
+  },
   shuffleNums: function (array) {
     let i = array.length
     let j = 0
@@ -21,18 +25,18 @@ const Landing = React.createClass({
     const numLunchChoices = sampleData.lunchChoices.length
     let tempNumsArray = []
     let wheelPieces = []
-    for (var i = 0; i < numLunchChoices; i++) {
+    for (var i = 1; i < numLunchChoices; i++) {
       tempNumsArray.push(i)
     }
 
     let randomNums = this.shuffleNums(tempNumsArray)
 
-    wheelPieces.push(sampleData.lunchChoices[randomNums[0]].name)
-    wheelPieces.push(sampleData.lunchChoices[randomNums[1]].name)
-    wheelPieces.push(sampleData.lunchChoices[randomNums[2]].name)
-    wheelPieces.push(sampleData.lunchChoices[randomNums[3]].name)
-    wheelPieces.push(sampleData.lunchChoices[randomNums[4]].name)
-    wheelPieces.push(sampleData.lunchChoices[randomNums[5]].name)
+    wheelPieces.push({'name': sampleData.lunchChoices[randomNums[0]].name, 'id': '0'})
+    wheelPieces.push({'name': sampleData.lunchChoices[randomNums[1]].name, 'id': '1'})
+    wheelPieces.push({'name': sampleData.lunchChoices[randomNums[2]].name, 'id': '2'})
+    wheelPieces.push({'name': sampleData.lunchChoices[randomNums[3]].name, 'id': '3'})
+    wheelPieces.push({'name': sampleData.lunchChoices[randomNums[4]].name, 'id': '4'})
+    wheelPieces.push({'name': sampleData.lunchChoices[randomNums[5]].name, 'id': '5'})
 
     return wheelPieces
   },
@@ -76,7 +80,6 @@ const Landing = React.createClass({
 				exactly aligned with the spin btn */
         if (aoY < 23.89) {
         // if (aoY < 50) {
-          console.log('<<<<<<<<')
           document.getElementById('spin').classList.add('spin')
           setTimeout(function () {
             document.getElementById('spin').classList.remove('spin')
@@ -93,24 +96,30 @@ const Landing = React.createClass({
       <div className='container'>
 
         <header className='header'>
-          <h1 className='brand'>Lunch Plans</h1>
+          {/* <h1 className='brand'>Lunch Plans</h1> */}
+          <h1 className='brand'>Prototype</h1>
         </header>
 
         <div id="wrapper">
 
-          <div id="wheel">
-            <div id="inner-wheel">
-              {wheelWedges
-                .map((restaurant) => (
-                  <WheelWedge restaurant={restaurant} />
-                ))
-              }
-            </div>
+          <div id="leftSide">
+            <div><FilterForm restaurants={sampleData.lunchChoices} /></div>
+          </div>
 
-            <div id="spin" onClick={this.handleSpinClick}>
-              <div id="inner-spin"></div>
+          <div id="rightSide">
+            <button type="submit" onClick={this.handleButtonClick}>Reload Wheel</button>
+            <div id="wheel">
+              <div id="inner-wheel">
+                {wheelWedges
+                  .map((restaurant) => (
+                    <WheelWedge restaurant={restaurant.name} key={restaurant.id} />
+                  ))
+                }
+              </div>
+              <div id="spin" onClick={this.handleSpinClick}>
+                <div id="inner-spin"></div>
+              </div>
             </div>
-
           </div>
 
         </div>
