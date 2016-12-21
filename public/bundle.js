@@ -20231,7 +20231,42 @@
 	  displayName: 'FilterForm',
 
 	  getInitialState: function getInitialState() {
-	    return { restaurants: this.props.restaurants };
+	    var newRestaurants = this.sortData(this.props.restaurants, 'name');
+	    var unique = {};
+	    var distinct = [];
+	    var cuisines = newRestaurants.map(function (obj) {
+	      return obj.cuisine;
+	    });
+	    var costs = newRestaurants.map(function (obj) {
+	      return obj.cost;
+	    });
+
+	    for (var i in cuisines) {
+	      if (typeof unique[cuisines[i]] === 'undefined') {
+	        distinct.push({ 'id': cuisines[i], 'cuisine': cuisines[i] });
+	      }
+	      unique[cuisines[i]] = 0;
+	    }
+	    var newCuisines = this.sortData(distinct, 'cuisine');
+
+	    // clear the array so we don't append to existing data! This is supposedly faster than simply setting length = 0
+	    // while (distinct.length > 0) {
+	    //   distinct.pop()
+	    // }
+	    distinct = [];
+	    for (var j in costs) {
+	      if (typeof unique[costs[j]] === 'undefined') {
+	        distinct.push({ 'id': costs[j], 'cost': costs[j] });
+	      }
+	      unique[costs[j]] = 0;
+	    }
+	    var newCosts = this.sortData(distinct, 'cost');
+
+	    return {
+	      newRestaurants: newRestaurants,
+	      newCuisines: newCuisines,
+	      newCosts: newCosts
+	    };
 	  },
 	  propTypes: {
 	    restaurants: arrayOf(object)
@@ -20253,106 +20288,33 @@
 	  },
 	  dropDownOnChange: function dropDownOnChange(change) {
 	    // unfortunately this also changes the dropdowns - do they need to be rendered differently?
-	    // console.log('dropdown changed: ', change)
-
-	    var newRestaurants = this.state.restaurants.filter(function (restaurant) {
+	    var newRestaurants = this.props.restaurants.filter(function (restaurant) {
 	      return restaurant.cuisine.toLowerCase() === change.newValue.toLowerCase();
 	    });
 
-	    this.setState({ restaurants: newRestaurants });
-
-	    // console.log('state: ', this.state)
+	    this.setState({ newRestaurants: newRestaurants });
 	  },
 	  render: function render() {
-	    var newRestaurants = this.sortData(this.state.restaurants, 'name');
-	    var unique = {};
-	    var distinct = [];
-	    var cuisines = this.state.restaurants.map(function (obj) {
-	      return obj.cuisine;
-	    });
-	    var costs = this.state.restaurants.map(function (obj) {
-	      return obj.cost;
-	    });
-
-	    for (var i in cuisines) {
-	      // if (typeof (unique[cuisines[i]]) === 'undefined' && cuisines[i].toLowerCase().indexOf('select') < 0) {
-	      if (typeof unique[cuisines[i]] === 'undefined') {
-	        distinct.push({ 'id': cuisines[i], 'cuisine': cuisines[i] });
-	      }
-	      unique[cuisines[i]] = 0;
-	    }
-	    var newCuisines = this.sortData(distinct, 'cuisine');
-
-	    // clear the array so we don't append to existing data! This is supposedly faster than simply setting length = 0
-	    // while (distinct.length > 0) {
-	    //   distinct.pop()
-	    // }
-	    distinct = [];
-	    for (var j in costs) {
-	      // if (typeof (unique[costs[j]]) === 'undefined' && costs[j].toLowerCase().indexOf('select') < 0) {
-	      if (typeof unique[costs[j]] === 'undefined') {
-	        distinct.push({ 'id': costs[j], 'cost': costs[j] });
-	      }
-	      unique[costs[j]] = 0;
-	    }
-	    var newCosts = this.sortData(distinct, 'cost');
-
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(
-	        'form',
-	        { className: 'filterForm' },
-	        React.createElement(
-	          'table',
-	          null,
-	          React.createElement(
-	            'tbody',
-	            null,
-	            React.createElement(
-	              'tr',
-	              null,
-	              React.createElement(
-	                'td',
-	                { className: 'fieldTitle' },
-	                'Cuisine:'
-	              ),
-	              React.createElement(
-	                'td',
-	                null,
-	                React.createElement(DropDownTool, { id: 'cuisineDropdown',
-	                  options: newCuisines,
-	                  value: '',
-	                  labelField: 'cuisine',
-	                  valueField: 'cuisine',
-	                  onChange: this.dropDownOnChange
-	                })
-	              )
-	            ),
-	            React.createElement(
-	              'tr',
-	              null,
-	              React.createElement(
-	                'td',
-	                { className: 'fieldTitle' },
-	                'Cost:'
-	              ),
-	              React.createElement(
-	                'td',
-	                null,
-	                React.createElement(DropDownTool, { id: 'costDropdown',
-	                  options: newCosts,
-	                  value: '',
-	                  labelField: 'cost',
-	                  valueField: 'cost',
-	                  onChange: this.dropDownOnChange
-	                })
-	              )
-	            )
-	          )
-	        )
-	      ),
-	      React.createElement(ShowRestaurants, { restaurant: newRestaurants })
+	      React.createElement(DropDownTool, { id: 'cuisineDropdown',
+	        title: 'Cuisine:',
+	        options: this.state.newCuisines,
+	        value: '',
+	        labelField: 'cuisine',
+	        valueField: 'cuisine',
+	        onChange: this.dropDownOnChange
+	      }),
+	      React.createElement(DropDownTool, { id: 'costDropdown',
+	        title: 'Cost:',
+	        options: this.state.newCosts,
+	        value: '',
+	        labelField: 'cost',
+	        valueField: 'cost',
+	        onChange: this.dropDownOnChange
+	      }),
+	      React.createElement(ShowRestaurants, { restaurant: this.state.newRestaurants })
 	    );
 	  }
 	});
@@ -20371,7 +20333,12 @@
 	  displayName: 'DropDownTool',
 
 
+	  shouldComponentUpdate: function shouldComponentUpdate() {
+	    return false;
+	  },
+
 	  propTypes: {
+	    title: React.PropTypes.string.isRequired,
 	    id: React.PropTypes.string.isRequired,
 	    options: React.PropTypes.array.isRequired,
 	    value: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]),
@@ -20382,6 +20349,8 @@
 
 	  getDefaultProps: function getDefaultProps() {
 	    return {
+	      title: null,
+	      id: null,
 	      value: null,
 	      valueField: 'value',
 	      labelField: 'label',
@@ -20424,12 +20393,21 @@
 	      );
 	    });
 	    return React.createElement(
-	      'select',
-	      { id: this.props.id,
-	        className: 'form-control',
-	        value: this.state.selected,
-	        onChange: this.handleChange },
-	      options
+	      'div',
+	      null,
+	      React.createElement(
+	        'span',
+	        { className: 'fieldTitle' },
+	        this.props.title
+	      ),
+	      React.createElement(
+	        'select',
+	        { id: this.props.id,
+	          className: 'form-control',
+	          value: this.state.selected,
+	          onChange: this.handleChange },
+	        options
+	      )
 	    );
 	  },
 
