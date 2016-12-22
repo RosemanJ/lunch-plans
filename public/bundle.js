@@ -20231,9 +20231,12 @@
 	  displayName: 'FilterForm',
 
 	  getInitialState: function getInitialState() {
+	    // sort the data by restaurant name
 	    var newRestaurants = this.sortData(this.props.restaurants, 'name');
 	    var unique = {};
 	    var distinct = [];
+
+	    // map out the cuisines and costs into separate arrays
 	    var cuisines = newRestaurants.map(function (obj) {
 	      return obj.cuisine;
 	    });
@@ -20241,18 +20244,23 @@
 	      return obj.cost;
 	    });
 
+	    // reduce cuisines to a unique list
 	    for (var i in cuisines) {
 	      if (typeof unique[cuisines[i]] === 'undefined') {
 	        distinct.push({ 'id': cuisines[i], 'cuisine': cuisines[i] });
 	      }
 	      unique[cuisines[i]] = 0;
 	    }
+	    // sort the unique cuisines alphabetically
 	    var newCuisines = this.sortData(distinct, 'cuisine');
+	    newCuisines.unshift({ 'id': 'Select one', 'cuisine': 'Select one' });
 
 	    // clear the array so we don't append to existing data! This is supposedly faster than simply setting length = 0
 	    // while (distinct.length > 0) {
 	    //   distinct.pop()
 	    // }
+
+	    // reduce costs to a unique list
 	    distinct = [];
 	    for (var j in costs) {
 	      if (typeof unique[costs[j]] === 'undefined') {
@@ -20260,7 +20268,9 @@
 	      }
 	      unique[costs[j]] = 0;
 	    }
+	    // sort the unique costs alphabetically
 	    var newCosts = this.sortData(distinct, 'cost');
+	    newCosts.unshift({ 'id': 'Select one', 'cost': 'Select one' });
 
 	    return {
 	      newRestaurants: newRestaurants,
@@ -20287,14 +20297,23 @@
 	    return arrayToSort;
 	  },
 	  dropDownOnChange: function dropDownOnChange(change) {
-	    // unfortunately this also changes the dropdowns - do they need to be rendered differently?
+	    console.log('change: ', change);
+	    var fieldToCheck = void 0;
+	    if (change.id.toLowerCase().indexOf('cuisine') > -1) {
+	      fieldToCheck = 'cuisine';
+	    }if (change.id.toLowerCase().indexOf('cost') > -1) {
+	      fieldToCheck = 'cost';
+	    }
+	    // filter the restautants based on a change to a dropdown
 	    var newRestaurants = this.props.restaurants.filter(function (restaurant) {
-	      return restaurant.cuisine.toLowerCase() === change.newValue.toLowerCase();
+	      return restaurant[fieldToCheck].toLowerCase() === change.newValue.toLowerCase();
 	    });
 
+	    // setState to re-render
 	    this.setState({ newRestaurants: newRestaurants });
 	  },
 	  render: function render() {
+	    // unfortunately the dropdowns re-render upon state change too
 	    return React.createElement(
 	      'div',
 	      null,
@@ -20314,7 +20333,7 @@
 	        valueField: 'cost',
 	        onChange: this.dropDownOnChange
 	      }),
-	      React.createElement(ShowRestaurants, { restaurant: this.state.newRestaurants })
+	      React.createElement(ShowRestaurants, { restaurants: this.state.newRestaurants })
 	    );
 	  }
 	});
@@ -20392,6 +20411,8 @@
 	        option[self.props.labelField]
 	      );
 	    });
+	    // FIXME: this needs to be an object not just a string
+	    // options.slice(0).unshift("<option key='select' value='select'>Select one</option>")
 	    return React.createElement(
 	      'div',
 	      null,
@@ -20413,6 +20434,7 @@
 
 	  handleChange: function handleChange(e) {
 	    if (this.props.onChange) {
+	      console.log('change e = ', e);
 	      var change = {
 	        id: e.target.id,
 	        oldValue: this.state.selected,
@@ -20441,13 +20463,11 @@
 	  displayName: 'ShowRestaurants',
 
 	  propTypes: {
-	    restaurant: array
+	    restaurants: array
 	  },
 	  render: function render() {
-	    console.log(this.props);
-	    console.log(this.props.restaurant);
 	    var rests = [];
-	    var restaurants = this.props.restaurant;
+	    var restaurants = this.props.restaurants;
 	    for (var i = 0; i < restaurants.length; i++) {
 	      rests.push(React.createElement(
 	        'li',

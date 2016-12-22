@@ -104,6 +104,7 @@ const Landing = React.createClass({
 
           <div id="leftSide">
             <div><FilterForm restaurants={sampleData.lunchChoices} /></div>
+            {/* <div><ShowRestaurants restaurants={this.state.newRestaurants} /></div> */}
           </div>
 
           <div id="rightSide">
