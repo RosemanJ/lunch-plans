@@ -19839,21 +19839,26 @@
 	  handleButtonClick: function handleButtonClick() {
 	    // this will need to be rewritten to force a wheel update since state rendering will need to be turned off for the wheel
 	    // as we don't want dropdown state changes to affect the wheel, just the list
-	    this.setState(this.state);
+	    // this.setState(this.state)
 	  },
 	  handleDropdownChange: function handleDropdownChange(change) {
 	    var fieldToCheck = void 0;
+	    var newRestaurants = void 0;
 	    if (change.id.toLowerCase().indexOf('cuisine') > -1) {
 	      fieldToCheck = 'cuisine';
 	    }if (change.id.toLowerCase().indexOf('cost') > -1) {
 	      fieldToCheck = 'cost';
 	    }
-	    // filter the restautants based on a change to a dropdown
-	    var newRestaurants = sampleData.lunchChoices.filter(function (restaurant) {
-	      return restaurant[fieldToCheck].toLowerCase() === change.newValue.toLowerCase();
-	    });
+	    if (change.newValue && (change.newValue.toLowerCase() === 'select one' || change.newValue === '')) {
+	      // if user selected "Select One" then the entire list should re-render
+	      newRestaurants = sampleData.lunchChoices;
+	    } else {
+	      // filter the restautants based on a change to a dropdown
+	      newRestaurants = sampleData.lunchChoices.filter(function (restaurant) {
+	        return restaurant[fieldToCheck].toLowerCase() === change.newValue.toLowerCase();
+	      });
+	    }
 
-	    // this causes the wheel to re-render
 	    this.setState({ lunchChoices: newRestaurants });
 	  },
 	  sortByName: function sortByName() {
@@ -20261,14 +20266,6 @@
 	    );
 	  }
 	});
-
-	// const WheelWedge = (props) => (
-	//   <div className="sec"><span className="fa">{props.restaurant}</span></div>
-	// )
-	//
-	// WheelWedge.propTypes = {
-	//   restaurant: React.PropTypes.string
-	// }
 
 	module.exports = WheelWedge;
 

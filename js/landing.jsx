@@ -13,23 +13,25 @@ const Landing = React.createClass({
   handleButtonClick () {
     // this will need to be rewritten to force a wheel update since state rendering will need to be turned off for the wheel
     // as we don't want dropdown state changes to affect the wheel, just the list
-    this.setState(this.state)
+    // this.setState(this.state)
   },
   handleDropdownChange (change) {
     let fieldToCheck
+    let newRestaurants
     if (change.id.toLowerCase().indexOf('cuisine') > -1) {
       fieldToCheck = 'cuisine'
     } if (change.id.toLowerCase().indexOf('cost') > -1) {
       fieldToCheck = 'cost'
     }
-    if (change.newValue && change.newValue = '') {
+    if (change.newValue && (change.newValue.toLowerCase() === 'select one' || change.newValue === '')) {
       // if user selected "Select One" then the entire list should re-render
+      newRestaurants = sampleData.lunchChoices
+    } else {
+      // filter the restautants based on a change to a dropdown
+      newRestaurants = sampleData.lunchChoices
+        .filter((restaurant) => restaurant[fieldToCheck].toLowerCase() === change.newValue.toLowerCase())
     }
-    // filter the restautants based on a change to a dropdown
-    var newRestaurants = sampleData.lunchChoices
-      .filter((restaurant) => restaurant[fieldToCheck].toLowerCase() === change.newValue.toLowerCase())
 
-    // this causes the wheel to re-render
     this.setState({lunchChoices: newRestaurants})
   },
   sortByName () {
