@@ -19836,16 +19836,12 @@
 	    var newRestaurants = this.sortByName();
 	    return newRestaurants;
 	  },
-	  // shouldComponentUpdate () {
-	  //   // false means nothing re-renders, including the child ShowRestaurants which needs to re-render
-	  //   return false
-	  // },
 	  handleButtonClick: function handleButtonClick() {
+	    // this will need to be rewritten to force a wheel update since state rendering will need to be turned off for the wheel
+	    // as we don't want dropdown state changes to affect the wheel, just the list
 	    this.setState(this.state);
 	  },
 	  handleDropdownChange: function handleDropdownChange(change) {
-	    console.log('PARENT CHANGE!', change);
-
 	    var fieldToCheck = void 0;
 	    if (change.id.toLowerCase().indexOf('cuisine') > -1) {
 	      fieldToCheck = 'cuisine';
@@ -19857,7 +19853,7 @@
 	      return restaurant[fieldToCheck].toLowerCase() === change.newValue.toLowerCase();
 	    });
 
-	    // this causes the dropdowns and the wheel to re-render
+	    // this causes the wheel to re-render
 	    this.setState({ lunchChoices: newRestaurants });
 	  },
 	  sortByName: function sortByName() {
@@ -19974,7 +19970,7 @@
 	        React.createElement(
 	          'h1',
 	          { className: 'brand' },
-	          'Prototype'
+	          'Lunch Plans'
 	        )
 	      ),
 	      React.createElement(
