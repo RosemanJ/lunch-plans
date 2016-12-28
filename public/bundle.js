@@ -20237,22 +20237,38 @@
 	"use strict";
 
 	var React = __webpack_require__(1);
+	var string = React.PropTypes.string;
 
-	var WheelWedge = function WheelWedge(props) {
-	  return React.createElement(
-	    "div",
-	    { className: "sec" },
-	    React.createElement(
-	      "span",
-	      { className: "fa" },
-	      props.restaurant
-	    )
-	  );
-	};
 
-	WheelWedge.propTypes = {
-	  restaurant: React.PropTypes.string
-	};
+	var WheelWedge = React.createClass({
+	  displayName: "WheelWedge",
+	  shouldComponentUpdate: function shouldComponentUpdate() {
+	    return false;
+	  },
+
+	  propTypes: {
+	    restaurant: string
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      { className: "sec" },
+	      React.createElement(
+	        "span",
+	        { className: "fa" },
+	        this.props.restaurant
+	      )
+	    );
+	  }
+	});
+
+	// const WheelWedge = (props) => (
+	//   <div className="sec"><span className="fa">{props.restaurant}</span></div>
+	// )
+	//
+	// WheelWedge.propTypes = {
+	//   restaurant: React.PropTypes.string
+	// }
 
 	module.exports = WheelWedge;
 

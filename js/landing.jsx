@@ -22,6 +22,9 @@ const Landing = React.createClass({
     } if (change.id.toLowerCase().indexOf('cost') > -1) {
       fieldToCheck = 'cost'
     }
+    if (change.newValue && change.newValue = '') {
+      // if user selected "Select One" then the entire list should re-render
+    }
     // filter the restautants based on a change to a dropdown
     var newRestaurants = sampleData.lunchChoices
       .filter((restaurant) => restaurant[fieldToCheck].toLowerCase() === change.newValue.toLowerCase())

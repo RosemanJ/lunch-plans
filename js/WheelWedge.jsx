@@ -1,11 +1,18 @@
 const React = require('react')
+const {string} = React.PropTypes
 
-const WheelWedge = (props) => (
-  <div className="sec"><span className="fa">{props.restaurant}</span></div>
-)
-
-WheelWedge.propTypes = {
-  restaurant: React.PropTypes.string
-}
+const WheelWedge = React.createClass({
+  shouldComponentUpdate () {
+    return false
+  },
+  propTypes: {
+    restaurant: string
+  },
+  render () {
+    return (
+      <div className="sec"><span className="fa">{this.props.restaurant}</span></div>
+    )
+  }
+})
 
 module.exports = WheelWedge
