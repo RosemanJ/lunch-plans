@@ -19836,30 +19836,60 @@
 	    var newRestaurants = this.sortByName();
 	    return newRestaurants;
 	  },
+	  filterRestaurants: function filterRestaurants(change) {
+	    var chosenCuisine = this.state.chosenCuisine;
+	    var chosenCost = this.state.chosenCost;
+	    var self = this;
+	    return function (item) {
+	      if (change.id && change.id.toLowerCase().indexOf('cuisine') > -1) {
+	        self.setState({ chosenCuisine: change.newValue.toLowerCase() });
+	        if (chosenCost && chosenCost.length) {
+	          if ((item.cuisine.toLowerCase() === change.newValue.toLowerCase() || change.newValue.toLowerCase() === 'select one') && (item.cost === chosenCost || chosenCost.toLowerCase() === 'select one')) {
+	            return true;
+	          } else {
+	            return false;
+	          }
+	        } else if (change.newValue.toLowerCase() !== 'select one') {
+	          if (item.cuisine.toLowerCase() === change.newValue.toLowerCase()) {
+	            return true;
+	          } else {
+	            return false;
+	          }
+	        } else {
+	          return true;
+	        }
+	      }
+
+	      if (change.id && change.id.toLowerCase().indexOf('cost') > -1) {
+	        self.setState({ chosenCost: change.newValue });
+	        if (chosenCuisine && chosenCuisine.length) {
+	          if ((item.cuisine.toLowerCase() === chosenCuisine.toLowerCase() || chosenCuisine.toLowerCase() === 'select one') && (item.cost === change.newValue || change.newValue.toLowerCase() === 'select one')) {
+	            return true;
+	          } else {
+	            return false;
+	          }
+	        } else if (change.newValue.toLowerCase() !== 'select one') {
+	          if (item.cost === change.newValue) {
+	            return true;
+	          } else {
+	            return false;
+	          }
+	        } else {
+	          return true;
+	        }
+	      }
+	    }; // return function (item)
+	  },
 	  handleButtonClick: function handleButtonClick() {
 	    // this will need to be rewritten to force a wheel update since state rendering will need to be turned off for the wheel
 	    // as we don't want dropdown state changes to affect the wheel, just the list
 	    // this.setState(this.state)
 	  },
 	  handleDropdownChange: function handleDropdownChange(change) {
-	    var fieldToCheck = void 0;
-	    var newRestaurants = void 0;
-	    if (change.id.toLowerCase().indexOf('cuisine') > -1) {
-	      fieldToCheck = 'cuisine';
-	    }if (change.id.toLowerCase().indexOf('cost') > -1) {
-	      fieldToCheck = 'cost';
-	    }
-	    if (change.newValue && (change.newValue.toLowerCase() === 'select one' || change.newValue === '')) {
-	      // if user selected "Select One" then the entire list should re-render
-	      newRestaurants = sampleData.lunchChoices;
-	    } else {
-	      // filter the restautants based on a change to a dropdown
-	      newRestaurants = sampleData.lunchChoices.filter(function (restaurant) {
-	        return restaurant[fieldToCheck].toLowerCase() === change.newValue.toLowerCase();
-	      });
-	    }
-
-	    this.setState({ lunchChoices: newRestaurants });
+	    var newRestaurants = sampleData.lunchChoices.filter(this.filterRestaurants(change));
+	    this.setState({
+	      lunchChoices: newRestaurants
+	    });
 	  },
 	  sortByName: function sortByName() {
 	    sampleData.lunchChoices.sort(function (a, b) {
@@ -19943,10 +19973,8 @@
 	        var aoY = t.getBoundingClientRect().top;
 	        console.log('aoY: ', aoY);
 
-	        /* 23.7 is the minumum offset number that
-	        each section can get, in a 30 angle degree.
-	        So, if the offset reaches 23.7, then we know
-	        that it has a 30 degree angle and therefore,
+	        /* 23.7 is the minumum offset number that each section can get, in a 30 angle degree.
+	        So, if the offset reaches 23.7, then we know that it has a 30 degree angle and therefore,
 	        exactly aligned with the spin btn */
 	        if (aoY < 23.89) {
 	          // if (aoY < 50) {
