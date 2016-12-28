@@ -1,18 +1,18 @@
 const React = require('react')
 const DropDownTool = require('./DropDownTool')
-const ShowRestaurants = require('./ShowRestaurants')
-const {arrayOf, object} = React.PropTypes
+const {arrayOf, object, func} = React.PropTypes
 
 const FilterForm = React.createClass({
+  shouldComponentUpdate () {
+    return false
+  },
   getInitialState: function () {
-    // sort the data by restaurant name
-    const newRestaurants = this.sortData(this.props.restaurants, 'name')
     let unique = {}
     let distinct = []
 
     // map out the cuisines and costs into separate arrays
-    let cuisines = newRestaurants.map(function (obj) { return obj.cuisine })
-    let costs = newRestaurants.map(function (obj) { return obj.cost })
+    let cuisines = this.props.restaurants.map(function (obj) { return obj.cuisine })
+    let costs = this.props.restaurants.map(function (obj) { return obj.cost })
 
     // reduce cuisines to a unique list
     for (var i in cuisines) {
@@ -43,13 +43,13 @@ const FilterForm = React.createClass({
     newCosts.unshift({'id': 'Select one', 'cost': 'Select one'})
 
     return {
-      newRestaurants: newRestaurants,
       newCuisines: newCuisines,
       newCosts: newCosts
     }
   },
   propTypes: {
-    restaurants: arrayOf(object)
+    restaurants: arrayOf(object),
+    handleChange: func
   },
   sortData (arrayToSort, fieldToSort) {
     arrayToSort.sort(function (a, b) {
@@ -67,25 +67,13 @@ const FilterForm = React.createClass({
     return arrayToSort
   },
   dropDownOnChange (change) {
-    console.log('change: ', change)
-    let fieldToCheck
-    if (change.id.toLowerCase().indexOf('cuisine') > -1) {
-      fieldToCheck = 'cuisine'
-    } if (change.id.toLowerCase().indexOf('cost') > -1) {
-      fieldToCheck = 'cost'
-    }
-    // filter the restautants based on a change to a dropdown
-    var newRestaurants = this.props.restaurants
-      .filter((restaurant) => restaurant[fieldToCheck].toLowerCase() === change.newValue.toLowerCase())
-
-    // setState to re-render
-    this.setState({ newRestaurants: newRestaurants })
+    this.props.handleChange(change)
   },
   render () {
-    // unfortunately the dropdowns re-render upon state change too
     return (
       <div>
-        <DropDownTool id='cuisineDropdown'
+        <DropDownTool
+          id='cuisineDropdown'
           title='Cuisine:'
           options={this.state.newCuisines}
           value=''
@@ -93,7 +81,8 @@ const FilterForm = React.createClass({
           valueField='cuisine'
           onChange={this.dropDownOnChange}
         />
-        <DropDownTool id='costDropdown'
+        <DropDownTool
+          id='costDropdown'
           title='Cost:'
           options={this.state.newCosts}
           value=''
@@ -101,9 +90,6 @@ const FilterForm = React.createClass({
           valueField='cost'
           onChange={this.dropDownOnChange}
         />
-
-        <ShowRestaurants restaurants={this.state.newRestaurants} />
-
       </div>
     )
   }

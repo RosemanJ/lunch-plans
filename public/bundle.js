@@ -19826,12 +19826,54 @@
 	var sampleData = __webpack_require__(160);
 	var WheelWedge = __webpack_require__(161);
 	var FilterForm = __webpack_require__(162);
+	var ShowRestaurants = __webpack_require__(164);
 	var clicks = 0;
 
 	var Landing = React.createClass({
 	  displayName: 'Landing',
+
+	  getInitialState: function getInitialState() {
+	    var newRestaurants = this.sortByName();
+	    return newRestaurants;
+	  },
+	  // shouldComponentUpdate () {
+	  //   // false means nothing re-renders, including the child ShowRestaurants which needs to re-render
+	  //   return false
+	  // },
 	  handleButtonClick: function handleButtonClick() {
 	    this.setState(this.state);
+	  },
+	  handleDropdownChange: function handleDropdownChange(change) {
+	    console.log('PARENT CHANGE!', change);
+
+	    var fieldToCheck = void 0;
+	    if (change.id.toLowerCase().indexOf('cuisine') > -1) {
+	      fieldToCheck = 'cuisine';
+	    }if (change.id.toLowerCase().indexOf('cost') > -1) {
+	      fieldToCheck = 'cost';
+	    }
+	    // filter the restautants based on a change to a dropdown
+	    var newRestaurants = sampleData.lunchChoices.filter(function (restaurant) {
+	      return restaurant[fieldToCheck].toLowerCase() === change.newValue.toLowerCase();
+	    });
+
+	    // this causes the dropdowns and the wheel to re-render
+	    this.setState({ lunchChoices: newRestaurants });
+	  },
+	  sortByName: function sortByName() {
+	    sampleData.lunchChoices.sort(function (a, b) {
+	      var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+	      var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+	      if (nameA < nameB) {
+	        return -1;
+	      }
+	      if (nameA > nameB) {
+	        return 1;
+	      }
+	      // names must be equal
+	      return 0;
+	    });
+	    return sampleData;
 	  },
 
 	  shuffleNums: function shuffleNums(array) {
@@ -19944,7 +19986,12 @@
 	          React.createElement(
 	            'div',
 	            null,
-	            React.createElement(FilterForm, { restaurants: sampleData.lunchChoices })
+	            React.createElement(FilterForm, { restaurants: sampleData.lunchChoices, handleChange: this.handleDropdownChange })
+	          ),
+	          React.createElement(
+	            'div',
+	            null,
+	            React.createElement(ShowRestaurants, { restaurants: this.state.lunchChoices })
 	          )
 	        ),
 	        React.createElement(
@@ -20221,26 +20268,27 @@
 
 	var React = __webpack_require__(1);
 	var DropDownTool = __webpack_require__(163);
-	var ShowRestaurants = __webpack_require__(164);
 	var _React$PropTypes = React.PropTypes,
 	    arrayOf = _React$PropTypes.arrayOf,
-	    object = _React$PropTypes.object;
+	    object = _React$PropTypes.object,
+	    func = _React$PropTypes.func;
 
 
 	var FilterForm = React.createClass({
 	  displayName: 'FilterForm',
+	  shouldComponentUpdate: function shouldComponentUpdate() {
+	    return false;
+	  },
 
 	  getInitialState: function getInitialState() {
-	    // sort the data by restaurant name
-	    var newRestaurants = this.sortData(this.props.restaurants, 'name');
 	    var unique = {};
 	    var distinct = [];
 
 	    // map out the cuisines and costs into separate arrays
-	    var cuisines = newRestaurants.map(function (obj) {
+	    var cuisines = this.props.restaurants.map(function (obj) {
 	      return obj.cuisine;
 	    });
-	    var costs = newRestaurants.map(function (obj) {
+	    var costs = this.props.restaurants.map(function (obj) {
 	      return obj.cost;
 	    });
 
@@ -20273,13 +20321,13 @@
 	    newCosts.unshift({ 'id': 'Select one', 'cost': 'Select one' });
 
 	    return {
-	      newRestaurants: newRestaurants,
 	      newCuisines: newCuisines,
 	      newCosts: newCosts
 	    };
 	  },
 	  propTypes: {
-	    restaurants: arrayOf(object)
+	    restaurants: arrayOf(object),
+	    handleChange: func
 	  },
 	  sortData: function sortData(arrayToSort, fieldToSort) {
 	    arrayToSort.sort(function (a, b) {
@@ -20297,27 +20345,14 @@
 	    return arrayToSort;
 	  },
 	  dropDownOnChange: function dropDownOnChange(change) {
-	    console.log('change: ', change);
-	    var fieldToCheck = void 0;
-	    if (change.id.toLowerCase().indexOf('cuisine') > -1) {
-	      fieldToCheck = 'cuisine';
-	    }if (change.id.toLowerCase().indexOf('cost') > -1) {
-	      fieldToCheck = 'cost';
-	    }
-	    // filter the restautants based on a change to a dropdown
-	    var newRestaurants = this.props.restaurants.filter(function (restaurant) {
-	      return restaurant[fieldToCheck].toLowerCase() === change.newValue.toLowerCase();
-	    });
-
-	    // setState to re-render
-	    this.setState({ newRestaurants: newRestaurants });
+	    this.props.handleChange(change);
 	  },
 	  render: function render() {
-	    // unfortunately the dropdowns re-render upon state change too
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(DropDownTool, { id: 'cuisineDropdown',
+	      React.createElement(DropDownTool, {
+	        id: 'cuisineDropdown',
 	        title: 'Cuisine:',
 	        options: this.state.newCuisines,
 	        value: '',
@@ -20325,15 +20360,15 @@
 	        valueField: 'cuisine',
 	        onChange: this.dropDownOnChange
 	      }),
-	      React.createElement(DropDownTool, { id: 'costDropdown',
+	      React.createElement(DropDownTool, {
+	        id: 'costDropdown',
 	        title: 'Cost:',
 	        options: this.state.newCosts,
 	        value: '',
 	        labelField: 'cost',
 	        valueField: 'cost',
 	        onChange: this.dropDownOnChange
-	      }),
-	      React.createElement(ShowRestaurants, { restaurants: this.state.newRestaurants })
+	      })
 	    );
 	  }
 	});
@@ -20350,11 +20385,6 @@
 
 	var DropDownTool = React.createClass({
 	  displayName: 'DropDownTool',
-
-
-	  shouldComponentUpdate: function shouldComponentUpdate() {
-	    return false;
-	  },
 
 	  propTypes: {
 	    title: React.PropTypes.string.isRequired,
@@ -20411,8 +20441,6 @@
 	        option[self.props.labelField]
 	      );
 	    });
-	    // FIXME: this needs to be an object not just a string
-	    // options.slice(0).unshift("<option key='select' value='select'>Select one</option>")
 	    return React.createElement(
 	      'div',
 	      null,
@@ -20434,7 +20462,6 @@
 
 	  handleChange: function handleChange(e) {
 	    if (this.props.onChange) {
-	      console.log('change e = ', e);
 	      var change = {
 	        id: e.target.id,
 	        oldValue: this.state.selected,

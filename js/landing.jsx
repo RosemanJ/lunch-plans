@@ -2,11 +2,51 @@ const React = require('react')
 const sampleData = require('../public/sampleData')
 const WheelWedge = require('./WheelWedge')
 const FilterForm = require('./FilterForm')
+const ShowRestaurants = require('./ShowRestaurants')
 let clicks = 0
 
 const Landing = React.createClass({
+  getInitialState: function () {
+    const newRestaurants = this.sortByName()
+    return newRestaurants
+  },
+  // shouldComponentUpdate () {
+  //   // false means nothing re-renders, including the child ShowRestaurants which needs to re-render
+  //   return false
+  // },
   handleButtonClick () {
     this.setState(this.state)
+  },
+  handleDropdownChange (change) {
+    console.log('PARENT CHANGE!', change)
+
+    let fieldToCheck
+    if (change.id.toLowerCase().indexOf('cuisine') > -1) {
+      fieldToCheck = 'cuisine'
+    } if (change.id.toLowerCase().indexOf('cost') > -1) {
+      fieldToCheck = 'cost'
+    }
+    // filter the restautants based on a change to a dropdown
+    var newRestaurants = sampleData.lunchChoices
+      .filter((restaurant) => restaurant[fieldToCheck].toLowerCase() === change.newValue.toLowerCase())
+
+    // this causes the dropdowns and the wheel to re-render
+    this.setState({lunchChoices: newRestaurants})
+  },
+  sortByName () {
+    sampleData.lunchChoices.sort(function (a, b) {
+      var nameA = a.name.toUpperCase() // ignore upper and lowercase
+      var nameB = b.name.toUpperCase() // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1
+      }
+      if (nameA > nameB) {
+        return 1
+      }
+      // names must be equal
+      return 0
+    })
+    return sampleData
   },
   shuffleNums: function (array) {
     let i = array.length
@@ -103,8 +143,8 @@ const Landing = React.createClass({
         <div id="wrapper">
 
           <div id="leftSide">
-            <div><FilterForm restaurants={sampleData.lunchChoices} /></div>
-            {/* <div><ShowRestaurants restaurants={this.state.newRestaurants} /></div> */}
+            <div><FilterForm restaurants={sampleData.lunchChoices} handleChange={this.handleDropdownChange} /></div>
+            <div><ShowRestaurants restaurants={this.state.lunchChoices} /></div>
           </div>
 
           <div id="rightSide">

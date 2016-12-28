@@ -1,11 +1,6 @@
 const React = require('react')
 
 var DropDownTool = React.createClass({
-
-  shouldComponentUpdate: function () {
-    return false
-  },
-
   propTypes: {
     title: React.PropTypes.string.isRequired,
     id: React.PropTypes.string.isRequired,
@@ -65,8 +60,6 @@ var DropDownTool = React.createClass({
         </option>
       )
     })
-    // FIXME: this needs to be an object not just a string
-    // options.slice(0).unshift("<option key='select' value='select'>Select one</option>")
     return (
       <div>
         <span className='fieldTitle'>{this.props.title}</span>
@@ -82,7 +75,6 @@ var DropDownTool = React.createClass({
 
   handleChange: function (e) {
     if (this.props.onChange) {
-      console.log('change e = ', e)
       var change = {
         id: e.target.id,
         oldValue: this.state.selected,
