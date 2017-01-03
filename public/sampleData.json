@@ -5,7 +5,7 @@
     "fare": ["burgers"],
     "breakfast": false,
     "cost": "$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -14,7 +14,7 @@
     "fare": ["macaroni and cheese"],
     "breakfast": false,
     "cost": "$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -23,7 +23,7 @@
     "fare": ["sandwiches"],
     "breakfast": true,
     "cost": "$$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -32,7 +32,7 @@
     "fare": [],
     "breakfast": true,
     "cost": "$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -41,7 +41,7 @@
     "fare": ["sandwiches", "soups", "cookies"],
     "breakfast": true,
     "cost": "$$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -50,7 +50,7 @@
     "fare": [],
     "breakfast": false,
     "cost": "$$$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -59,7 +59,7 @@
     "fare": ["sandwiches"],
     "breakfast": true,
     "cost": "$$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -68,7 +68,7 @@
     "fare": ["burgers"],
     "breakfast": false,
     "cost": "$$$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -77,7 +77,7 @@
     "fare": [],
     "breakfast": false,
     "cost": "$$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -86,7 +86,7 @@
     "fare": [],
     "breakfast": false,
     "cost": "$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -95,7 +95,7 @@
     "fare": [],
     "breakfast": false,
     "cost": "$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -104,7 +104,7 @@
     "fare": ["nachos","burritos","quesadillas"],
     "breakfast": false,
     "cost": "$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -113,7 +113,7 @@
     "fare": ["pizza","salad","breadsticks","wings"],
     "breakfast": true,
     "cost": "$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -122,7 +122,7 @@
     "fare": ["sausages","beer"],
     "breakfast": true,
     "cost": "$$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -131,7 +131,7 @@
     "fare": ["sushi"],
     "breakfast": true,
     "cost": "$$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -140,7 +140,7 @@
     "fare": [],
     "breakfast": true,
     "cost": "$$$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -149,7 +149,7 @@
     "fare": [],
     "breakfast": true,
     "cost": "$$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -158,7 +158,7 @@
     "fare": [],
     "breakfast": true,
     "cost": "$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   },
   {
@@ -167,7 +167,7 @@
     "fare": [],
     "breakfast": true,
     "cost": "$",
-    "distance": "",
+    "distance": "1 mile",
     "menu": ""
   }
 ]}

@@ -422,6 +422,19 @@ li {
   font-size: 15px;
 }
 
+li span+div {
+  display: none;
+  width: 200px;
+  border: 2px solid red;
+  background-color: #000;
+  color: #fff;
+  padding: 10px;
+}
+
+li span:hover+div {
+  display: block;
+}
+
 
 /*ANIMATION*/
 

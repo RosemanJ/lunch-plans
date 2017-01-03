@@ -19883,7 +19883,7 @@
 	  handleButtonClick: function handleButtonClick() {
 	    // this will need to be rewritten to force a wheel update since state rendering will need to be turned off for the wheel
 	    // as we don't want dropdown state changes to affect the wheel, just the list
-	    // this.setState(this.state)
+	    this.setState(this.state);
 	  },
 	  handleDropdownChange: function handleDropdownChange(change) {
 	    var newRestaurants = sampleData.lunchChoices.filter(this.filterRestaurants(change));
@@ -20069,7 +20069,7 @@
 				],
 				"breakfast": false,
 				"cost": "$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20080,7 +20080,7 @@
 				],
 				"breakfast": false,
 				"cost": "$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20091,7 +20091,7 @@
 				],
 				"breakfast": true,
 				"cost": "$$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20100,7 +20100,7 @@
 				"fare": [],
 				"breakfast": true,
 				"cost": "$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20113,7 +20113,7 @@
 				],
 				"breakfast": true,
 				"cost": "$$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20122,7 +20122,7 @@
 				"fare": [],
 				"breakfast": false,
 				"cost": "$$$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20133,7 +20133,7 @@
 				],
 				"breakfast": true,
 				"cost": "$$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20144,7 +20144,7 @@
 				],
 				"breakfast": false,
 				"cost": "$$$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20153,7 +20153,7 @@
 				"fare": [],
 				"breakfast": false,
 				"cost": "$$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20162,7 +20162,7 @@
 				"fare": [],
 				"breakfast": false,
 				"cost": "$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20171,7 +20171,7 @@
 				"fare": [],
 				"breakfast": false,
 				"cost": "$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20184,7 +20184,7 @@
 				],
 				"breakfast": false,
 				"cost": "$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20198,7 +20198,7 @@
 				],
 				"breakfast": true,
 				"cost": "$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20210,7 +20210,7 @@
 				],
 				"breakfast": true,
 				"cost": "$$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20221,7 +20221,7 @@
 				],
 				"breakfast": true,
 				"cost": "$$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20230,7 +20230,7 @@
 				"fare": [],
 				"breakfast": true,
 				"cost": "$$$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20239,7 +20239,7 @@
 				"fare": [],
 				"breakfast": true,
 				"cost": "$$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20248,7 +20248,7 @@
 				"fare": [],
 				"breakfast": true,
 				"cost": "$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			},
 			{
@@ -20257,7 +20257,7 @@
 				"fare": [],
 				"breakfast": true,
 				"cost": "$",
-				"distance": "",
+				"distance": "1 mile",
 				"menu": ""
 			}
 		]
@@ -20275,7 +20275,11 @@
 
 	var WheelWedge = React.createClass({
 	  displayName: "WheelWedge",
-	  shouldComponentUpdate: function shouldComponentUpdate() {
+	  shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
+	    // console.log('** this.props = ', this.props)
+	    // console.log('** nextProps = ', nextProps)
+	    // console.log('** this.state = ', this.state)
+	    // console.log('** nextState = ', nextState)
 	    return false;
 	  },
 
@@ -20521,22 +20525,61 @@
 
 	var React = __webpack_require__(1);
 	var array = React.PropTypes.array;
-
+	// let tooltipStyle = {display: 'none'}
 
 	var ShowRestaurants = React.createClass({
 	  displayName: 'ShowRestaurants',
 
+	  // getInitialState () {
+	  //   this.setState({ hover: false })
+	  //   return {
+	  //     hover: false
+	  //   }
+	  // },
 	  propTypes: {
 	    restaurants: array
 	  },
+	  // handleMouseIn () {
+	  //   tooltipStyle = {display: 'block'}
+	  //   // this.setState({ hover: true })
+	  // },
+	  // handleMouseOut () {
+	  //   tooltipStyle = {display: 'none'}
+	  //   // this.setState({ hover: false })
+	  // },
 	  render: function render() {
 	    var rests = [];
 	    var restaurants = this.props.restaurants;
 	    for (var i = 0; i < restaurants.length; i++) {
-	      rests.push(React.createElement(
+	      rests.push(
+	      // <li data-cuisine={restaurants[i].cuisine} data-cost={restaurants[i].cost} data-distance={restaurants[i].distance}>{restaurants[i].name}</li>
+	      // <li data-cuisine={restaurants[i].cuisine} data-cost={restaurants[i].cost} data-distance={restaurants[i].distance} onMouseOver={this.handleMouseIn} onMouseOut={this.handleMouseOut}>{restaurants[i].name}
+	      React.createElement(
 	        'li',
-	        null,
-	        restaurants[i].name
+	        { 'data-cuisine': restaurants[i].cuisine, 'data-cost': restaurants[i].cost, 'data-distance': restaurants[i].distance },
+	        restaurants[i].name,
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'p',
+	            null,
+	            'Cuisine: ',
+	            restaurants[i].cuisine
+	          ),
+	          React.createElement(
+	            'p',
+	            null,
+	            'Cost: ',
+	            restaurants[i].cost
+	          ),
+	          React.createElement(
+	            'p',
+	            null,
+	            'Distance: ',
+	            restaurants[i].distance
+	          )
+	        )
 	      ));
 	    }
 	    return React.createElement(

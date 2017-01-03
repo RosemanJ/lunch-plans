@@ -57,7 +57,7 @@ const Landing = React.createClass({
   handleButtonClick () {
     // this will need to be rewritten to force a wheel update since state rendering will need to be turned off for the wheel
     // as we don't want dropdown state changes to affect the wheel, just the list
-    // this.setState(this.state)
+    this.setState(this.state)
   },
   handleDropdownChange (change) {
     let newRestaurants = sampleData.lunchChoices
