@@ -189,6 +189,12 @@ a {
   text-align: left;
 }
 
+#rightSide button {
+  margin-left: 63px;
+  margin-bottom: 20px;
+  padding: 5px;
+}
+
 select {
   margin-left: 0px;
   margin-bottom: 20px;

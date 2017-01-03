@@ -55,8 +55,7 @@ const Landing = React.createClass({
     } // return function (item)
   },
   handleButtonClick () {
-    // this will need to be rewritten to force a wheel update since state rendering will need to be turned off for the wheel
-    // as we don't want dropdown state changes to affect the wheel, just the list
+    // instead of this, the button should be part of the larger "wheel" component which creates the button and handles state changes and generates the wedges
     this.setState(this.state)
   },
   handleDropdownChange (change) {
