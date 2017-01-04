@@ -13,7 +13,7 @@ const Landing = React.createClass({
   filterRestaurants (change) {
     let chosenCuisine = this.state.chosenCuisine
     let chosenCost = this.state.chosenCost
-    let self = this
+    const self = this
     return function (item) {
       if (change.id && change.id.toLowerCase().indexOf('cuisine') > -1) {
         self.setState({chosenCuisine: change.newValue.toLowerCase()})
@@ -59,7 +59,7 @@ const Landing = React.createClass({
     this.setState(this.state)
   },
   handleDropdownChange (change) {
-    let newRestaurants = sampleData.lunchChoices
+    const newRestaurants = sampleData.lunchChoices
       .filter(this.filterRestaurants(change))
     this.setState({
       lunchChoices: newRestaurants
