@@ -3,9 +3,15 @@ const DropDownTool = require('./DropDownTool')
 const {arrayOf, object, func} = React.PropTypes
 
 const FilterForm = React.createClass({
+  propTypes: {
+    restaurants: arrayOf(object),
+    handleChange: func
+  },
+
   shouldComponentUpdate () {
     return false
   },
+
   getInitialState: function () {
     let unique = {}
     let distinct = []
@@ -47,10 +53,7 @@ const FilterForm = React.createClass({
       newCosts: newCosts
     }
   },
-  propTypes: {
-    restaurants: arrayOf(object),
-    handleChange: func
-  },
+
   sortData (arrayToSort, fieldToSort) {
     arrayToSort.sort(function (a, b) {
       var nameA = a[fieldToSort].toUpperCase() // ignore upper and lowercase
@@ -66,9 +69,11 @@ const FilterForm = React.createClass({
     })
     return arrayToSort
   },
+
   dropDownOnChange (change) {
     this.props.handleChange(change)
   },
+
   render () {
     return (
       <div>

@@ -19824,7 +19824,6 @@
 
 	var React = __webpack_require__(1);
 	var sampleData = __webpack_require__(160);
-	// const WheelWedge = require('./WheelWedge')
 	var WheelOfFortune = __webpack_require__(161);
 	var FilterForm = __webpack_require__(163);
 	var ShowRestaurants = __webpack_require__(165);
@@ -19921,16 +19920,8 @@
 	        React.createElement(
 	          'div',
 	          { id: 'leftSide' },
-	          React.createElement(
-	            'div',
-	            null,
-	            React.createElement(FilterForm, { restaurants: sampleData.lunchChoices, handleChange: this.handleDropdownChange })
-	          ),
-	          React.createElement(
-	            'div',
-	            null,
-	            React.createElement(ShowRestaurants, { restaurants: this.state.lunchChoices })
-	          )
+	          React.createElement(FilterForm, { restaurants: sampleData.lunchChoices, handleChange: this.handleDropdownChange }),
+	          React.createElement(ShowRestaurants, { restaurants: this.state.lunchChoices })
 	        ),
 	        React.createElement(
 	          'div',
@@ -20173,18 +20164,12 @@
 	  },
 
 	  shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
-	    console.log('** this.props = ', this.props);
-	    console.log('** nextProps = ', nextProps);
-	    console.log('** this.state = ', this.state);
-	    console.log('** nextState = ', nextState);
 	    if (this.state === nextState) {
 	      return false;
 	    } else {
 	      return true;
 	    }
 	  },
-
-
 	  shuffleNums: function shuffleNums(array) {
 	    var i = array.length;
 	    var j = 0;
@@ -20198,7 +20183,6 @@
 	    }
 	    return array;
 	  },
-
 	  loadWheel: function loadWheel() {
 	    var numLunchChoices = this.props.restaurants.length;
 	    var tempNumsArray = [];
@@ -20218,12 +20202,9 @@
 
 	    return wheelPieces;
 	  },
-
 	  handleButtonClick: function handleButtonClick() {
 	    this.setState(this.state);
 	  },
-
-
 	  handleSpinClick: function handleSpinClick(event) {
 	    // found online at https://codepen.io/AndreCortellini/pen/vERwmL?editors=1111
 	    // rewritten slightly back into plain Javascript and React
@@ -20277,7 +20258,6 @@
 	      _loop();
 	    }
 	  },
-
 	  render: function render() {
 	    var wheelWedges = this.loadWheel();
 	    return React.createElement(
@@ -20306,7 +20286,6 @@
 	      )
 	    );
 	  }
-
 	});
 
 	module.exports = WheelOfFortune;
@@ -20327,6 +20306,7 @@
 	  propTypes: {
 	    restaurant: string
 	  },
+
 	  render: function render() {
 	    return React.createElement(
 	      "div",
@@ -20358,9 +20338,16 @@
 
 	var FilterForm = React.createClass({
 	  displayName: 'FilterForm',
+
+	  propTypes: {
+	    restaurants: arrayOf(object),
+	    handleChange: func
+	  },
+
 	  shouldComponentUpdate: function shouldComponentUpdate() {
 	    return false;
 	  },
+
 
 	  getInitialState: function getInitialState() {
 	    var unique = {};
@@ -20407,10 +20394,7 @@
 	      newCosts: newCosts
 	    };
 	  },
-	  propTypes: {
-	    restaurants: arrayOf(object),
-	    handleChange: func
-	  },
+
 	  sortData: function sortData(arrayToSort, fieldToSort) {
 	    arrayToSort.sort(function (a, b) {
 	      var nameA = a[fieldToSort].toUpperCase(); // ignore upper and lowercase
@@ -20488,21 +20472,18 @@
 	      onChange: null
 	    };
 	  },
-
 	  getInitialState: function getInitialState() {
 	    var selected = this.getSelectedFromProps(this.props);
 	    return {
 	      selected: selected
 	    };
 	  },
-
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	    var selected = this.getSelectedFromProps(nextProps);
 	    this.setState({
 	      selected: selected
 	    });
 	  },
-
 	  getSelectedFromProps: function getSelectedFromProps(props) {
 	    var selected;
 	    if (props.value === null && props.options.length !== 0) {
@@ -20512,8 +20493,17 @@
 	    }
 	    return selected;
 	  },
-
-
+	  handleChange: function handleChange(e) {
+	    if (this.props.onChange) {
+	      var change = {
+	        id: e.target.id,
+	        oldValue: this.state.selected,
+	        newValue: e.target.value
+	      };
+	      this.props.onChange(change);
+	    }
+	    this.setState({ selected: e.target.value });
+	  },
 	  render: function render() {
 	    var self = this;
 	    var options = self.props.options.map(function (option) {
@@ -20540,20 +20530,7 @@
 	        options
 	      )
 	    );
-	  },
-
-	  handleChange: function handleChange(e) {
-	    if (this.props.onChange) {
-	      var change = {
-	        id: e.target.id,
-	        oldValue: this.state.selected,
-	        newValue: e.target.value
-	      };
-	      this.props.onChange(change);
-	    }
-	    this.setState({ selected: e.target.value });
 	  }
-
 	});
 
 	module.exports = DropDownTool;
@@ -20566,61 +20543,23 @@
 
 	var React = __webpack_require__(1);
 	var array = React.PropTypes.array;
-	// let tooltipStyle = {display: 'none'}
+
 
 	var ShowRestaurants = React.createClass({
 	  displayName: 'ShowRestaurants',
 
-	  // getInitialState () {
-	  //   this.setState({ hover: false })
-	  //   return {
-	  //     hover: false
-	  //   }
-	  // },
 	  propTypes: {
 	    restaurants: array
 	  },
-	  // handleMouseIn () {
-	  //   tooltipStyle = {display: 'block'}
-	  //   // this.setState({ hover: true })
-	  // },
-	  // handleMouseOut () {
-	  //   tooltipStyle = {display: 'none'}
-	  //   // this.setState({ hover: false })
-	  // },
+
 	  render: function render() {
 	    var rests = [];
 	    var restaurants = this.props.restaurants;
 	    for (var i = 0; i < restaurants.length; i++) {
-	      rests.push(
-	      // <li data-cuisine={restaurants[i].cuisine} data-cost={restaurants[i].cost} data-distance={restaurants[i].distance}>{restaurants[i].name}</li>
-	      // <li data-cuisine={restaurants[i].cuisine} data-cost={restaurants[i].cost} data-distance={restaurants[i].distance} onMouseOver={this.handleMouseIn} onMouseOut={this.handleMouseOut}>{restaurants[i].name}
-	      React.createElement(
+	      rests.push(React.createElement(
 	        'li',
-	        { 'data-cuisine': restaurants[i].cuisine, 'data-cost': restaurants[i].cost, 'data-distance': restaurants[i].distance },
-	        restaurants[i].name,
-	        React.createElement(
-	          'div',
-	          null,
-	          React.createElement(
-	            'p',
-	            null,
-	            'Cuisine: ',
-	            restaurants[i].cuisine
-	          ),
-	          React.createElement(
-	            'p',
-	            null,
-	            'Cost: ',
-	            restaurants[i].cost
-	          ),
-	          React.createElement(
-	            'p',
-	            null,
-	            'Distance: ',
-	            restaurants[i].distance
-	          )
-	        )
+	        null,
+	        restaurants[i].name
 	      ));
 	    }
 	    return React.createElement(

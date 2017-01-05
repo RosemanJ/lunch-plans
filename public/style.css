@@ -428,17 +428,44 @@ li {
   font-size: 15px;
 }
 
-li span+div {
+
+/*li span+div, li span+table {*/
+
+.tooltip {
   display: none;
-  width: 200px;
-  border: 2px solid red;
+  width: 275px;
+  /*border: 2px solid red;*/
   background-color: #000;
   color: #fff;
   padding: 10px;
+  position: relative;
+  top: -50px;
+  left: 130px;
 }
 
-li span:hover+div {
+
+/*li span:hover+div, li span:hover+table {*/
+
+.tooltip:hover {
   display: block;
+}
+
+.tooltipTitle {
+  text-align: right;
+  font-weight: bold;
+  padding-right: 10px;
+  vertical-align: top;
+}
+
+.arrow-left {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #000;
+  position: relative;
+  top: -111px;
+  left: 120px;
 }
 
 

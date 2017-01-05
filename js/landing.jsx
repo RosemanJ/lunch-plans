@@ -90,8 +90,8 @@ const Landing = React.createClass({
         <div id="wrapper">
 
           <div id="leftSide">
-            <div><FilterForm restaurants={sampleData.lunchChoices} handleChange={this.handleDropdownChange} /></div>
-            <div><ShowRestaurants restaurants={this.state.lunchChoices} /></div>
+            <FilterForm restaurants={sampleData.lunchChoices} handleChange={this.handleDropdownChange} />
+            <ShowRestaurants restaurants={this.state.lunchChoices} />
           </div>
 
           <div id="rightSide">

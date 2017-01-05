@@ -17,7 +17,7 @@ var WheelOfFortune = React.createClass({
     }
   },
 
-  shuffleNums: function (array) {
+  shuffleNums (array) {
     let i = array.length
     let j = 0
     let temp
@@ -31,7 +31,7 @@ var WheelOfFortune = React.createClass({
     return array
   },
 
-  loadWheel: function () {
+  loadWheel () {
     const numLunchChoices = this.props.restaurants.length
     let tempNumsArray = []
     let wheelPieces = []
@@ -55,7 +55,7 @@ var WheelOfFortune = React.createClass({
     this.setState(this.state)
   },
 
-  handleSpinClick: function (event) {
+  handleSpinClick (event) {
     // found online at https://codepen.io/AndreCortellini/pen/vERwmL?editors=1111
     // rewritten slightly back into plain Javascript and React
 
@@ -104,7 +104,7 @@ var WheelOfFortune = React.createClass({
     }
   },
 
-  render: function () {
+  render () {
     let wheelWedges = this.loadWheel()
     return (
       <div>

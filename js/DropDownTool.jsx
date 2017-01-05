@@ -16,7 +16,7 @@ var DropDownTool = React.createClass({
     onChange: React.PropTypes.func
   },
 
-  getDefaultProps: function () {
+  getDefaultProps () {
     return {
       title: null,
       id: null,
@@ -27,14 +27,14 @@ var DropDownTool = React.createClass({
     }
   },
 
-  getInitialState: function () {
+  getInitialState () {
     var selected = this.getSelectedFromProps(this.props)
     return {
       selected: selected
     }
   },
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps (nextProps) {
     var selected = this.getSelectedFromProps(nextProps)
     this.setState({
       selected: selected
@@ -51,7 +51,19 @@ var DropDownTool = React.createClass({
     return selected
   },
 
-  render: function () {
+  handleChange (e) {
+    if (this.props.onChange) {
+      var change = {
+        id: e.target.id,
+        oldValue: this.state.selected,
+        newValue: e.target.value
+      }
+      this.props.onChange(change)
+    }
+    this.setState({selected: e.target.value})
+  },
+
+  render () {
     var self = this
     var options = self.props.options.map(function (option) {
       return (
@@ -71,18 +83,6 @@ var DropDownTool = React.createClass({
         </select>
       </div>
     )
-  },
-
-  handleChange: function (e) {
-    if (this.props.onChange) {
-      var change = {
-        id: e.target.id,
-        oldValue: this.state.selected,
-        newValue: e.target.value
-      }
-      this.props.onChange(change)
-    }
-    this.setState({selected: e.target.value})
   }
 
 })
